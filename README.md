@@ -55,6 +55,9 @@ $ bugsnag-sourcemaps upload --api-key YOUR_API_KEY_HERE \
                              --source-map
                              --minified-url
                              --minified-file
+-b, --base-url             The URL your users will request bundle from, this is used with the directory flag
+                            and will not be used unless directory is specified.  Utilized for multiple sourcemaps
+                            to be uploaded and the urls they map to.  Supports wildcards (e.g. '*')
 -e, --endpoint URL         The URL of the upload server
 -m, --minified-url URL     The URL your users will request your bundle
 -s, --source-map PATH      The path of the source map file (local)
@@ -84,6 +87,8 @@ upload({
     'http://example.com/assets/main.js': path.resolve(__dirname, 'path/to/main.js'),
     'http://example.com/assets/utils.js': path.resolve(__dirname, 'path/to/utils.js'),
   },
+  directory: 'path/to/sourcemap/folder', //optional, use when multiple sourcemaps are generated, leave blank to scan entire project for sourcemap files
+  baseUrl: 'http*//*example.com/', // optional, utilized when directory is defined and you need to upload sourcemaps based on url
 }, function(err) {
   if (err) {
     throw new Error('Something went wrong! ' + err.message);

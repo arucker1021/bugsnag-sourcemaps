@@ -22,6 +22,9 @@ const cli = meow(`
                                    --source-map
                                    --minified-url
                                    --minified-file
+      -b, --base-url             The URL your users will request bundle from, this is used with directory
+                                 and will not be used unless directory is specified.  Utilized for multiple sourcemaps
+                                 to be uploaded and the urls they map to.  Supports wildcards (e.g. '*')
       -e, --endpoint URL         The URL of the upload server
       -m, --minified-url URL     The URL your users will request your bundle
       -s, --source-map PATH      The path of the source map file (local)
@@ -50,6 +53,7 @@ const cli = meow(`
       OR
       $ bugsnag-sourcemaps upload \\
           --directory \\
+          --base-url http*//*.example.com/
           --api-key f915102cdb8153ee934b8549c930aa1b \\
           --app-version 1.0.0
 `, {
@@ -67,7 +71,8 @@ const cli = meow(`
     u: 'upload-sources',
     v: 'app-version',
     w: 'add-wildcard-prefix',
-    d: 'directory'
+    d: 'directory',
+    b: `base-url`
   },
   string: [
     'app-version',
