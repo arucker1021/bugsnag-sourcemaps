@@ -90,8 +90,10 @@ function uploadMany (options, logger) {
 
       logger.info(`Found ${files.length} source map(s) to upload`)
       const uploads = files.map(f => {
-        const minifiedUrl = path.relative(options.projectRoot, f.replace(/\.map$/, ''))
+        if(options.baseUrl && !options.baseUrl.endsWith('/')) options.baseUrl = options.baseUrl + '/'
+        const minifiedUrl = (options.baseUrl ? options.baseUrl : '') + path.relative(options.projectRoot, f.replace(/\.map$/, ''))
         const minifiedFile = f.replace(/\.map$/, '')
+        console.log(minifiedUrl)
         return cb => {
           const opts = Object.assign({}, options, { sourceMap: f, minifiedUrl: minifiedUrl, minifiedFile: minifiedFile, sources: {} })
           uploadOne(opts, logger)
